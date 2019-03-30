@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Row, Container } from 'react-bootstrap';
 import '../../App.css';
-import SiteNavBar from '../../components/SiteNavBar';
 import WelcomeJumbotron from '../../components/WelcomeJumbotron';
 
 class LandingPage extends Component {
