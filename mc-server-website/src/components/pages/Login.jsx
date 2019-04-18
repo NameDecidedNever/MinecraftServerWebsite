@@ -11,7 +11,7 @@ class Login extends Component {
             isLoginForm: true,
             hashword: null,
             username: null,
-            popupName : "none"
+            popupName: "none"
         };
         this.passwordRef = React.createRef();
         this.usernameRef = React.createRef();
@@ -24,7 +24,6 @@ class Login extends Component {
             fetch("http://" + window.location.hostname + ':8081/checkVerifyStatus', {
                 method: "POST", headers: {
                     "Content-Type": "application/json",
-                    // "Content-Type": "application/x-www-form-urlencoded",
                 }, body: bodyString
             })
                 .then(response => response.json()).catch(reason => console.log(reason))
@@ -33,18 +32,21 @@ class Login extends Component {
                         fetch("http://" + window.location.hostname + ':8081/login', {
                             method: "POST", headers: {
                                 "Content-Type": "application/json",
-                                // "Content-Type": "application/x-www-form-urlencoded",
                             }, body: bodyString
                         })
                             .then(response => response.json()).then((data) => {
-                                window.localStorage.setItem('jwt', data["token"]);
-                                window.location = "/"
+                                if (data.message == "good") {
+                                    window.localStorage.setItem('jwt', data["token"]);
+                                    window.location = "/"
+                                }else if(data.message == "bad"){
+                                    this.setState({ popupName: "wrongPassword" });
+                                }
                             });
                     } else if (data.message == "bad") {
                         this.usernameRef.current.value = "";
                         this.setState({ isLoginForm: false });
                     } else {
-                        this.setState({ popupName : "noAccount" });
+                        this.setState({ popupName: "noAccount" });
                     }
                 });
         });
@@ -62,9 +64,9 @@ class Login extends Component {
             .then((data) => {
                 if (data.message == "good") {
                     this.verifyCodeRef.current.value = "";
-                    this.setState({ isLoginForm: true, popupName : "correctCode" });
+                    this.setState({ isLoginForm: true, popupName: "correctCode" });
                 } else {
-                    this.setState({ popupName : "incorrectCode" });
+                    this.setState({ popupName: "incorrectCode" });
                 }
             });
     }
@@ -74,6 +76,12 @@ class Login extends Component {
         const popupIncorrectCode = (
             <Alert variant="danger">
                 <Alert.Heading>Oh snap! That's the wrong code!</Alert.Heading>
+            </Alert>
+        );
+
+        const popupWrongPassword = (
+            <Alert variant="danger">
+                <Alert.Heading>Incorrect Password! Is this really your account...James?</Alert.Heading>
             </Alert>
         );
 
@@ -91,22 +99,25 @@ class Login extends Component {
 
         let thePopup = (<></>);
 
-        if(this.state.popupName === "incorrectCode"){
+        if (this.state.popupName === "incorrectCode") {
             thePopup = popupIncorrectCode;
         }
-        if(this.state.popupName === "correctCode"){
+        if (this.state.popupName === "correctCode") {
             thePopup = popupCorrectCode;
         }
-        if(this.state.popupName === "noAccount"){
+        if (this.state.popupName === "noAccount") {
             thePopup = popupNoAccount;
+        }
+        if (this.state.popupName === "wrongPassword") {
+            thePopup = popupWrongPassword;
         }
 
         const loginJumbotron = (
             <Jumbotron>
                 <h1>Login / Signup</h1>
-                <p>
+                <h5>
                     To login, fill in the information below. To SignUp, fill in your Minecraft username and your desired password.
-                        </p>
+                        </h5>
                 <InputGroup size="lg">
                     <InputGroup.Prepend>
                         <InputGroup.Text id="mc-username">MC Username</InputGroup.Text>

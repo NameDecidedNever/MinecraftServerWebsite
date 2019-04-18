@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Form, Button } from 'react-bootstrap';
+import  TokenManager  from '../tokenManager';
+var jwt = require('jsonwebtoken')
 
 class SiteNavBar extends Component {
 
   logout() {
     localStorage.removeItem('jwt');
-    this.forceUpdate()
+    window.location = '/';
   }
 
   render() {
-
     let rightNavArea = <></>;
     console.log(window.localStorage.getItem('jwt'));
-    if (window.localStorage.getItem('jwt') == null) {
+    if (!TokenManager.isLoggedIn()) {
       rightNavArea = (<Button href="login" variant="outline-success">Login</Button>)
     } else {
-      rightNavArea = (<Button onClick={() => this.logout()} variant="outline-primary">Logout</Button>);
+      rightNavArea = (<Button onClick={() => this.logout()} variant="outline-primary">Logout of {TokenManager.getLoggedInName()}</Button>);
     }
 
     return (
