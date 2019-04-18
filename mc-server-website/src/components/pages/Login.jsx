@@ -28,21 +28,21 @@ class Login extends Component {
             })
                 .then(response => response.json()).catch(reason => console.log(reason))
                 .then((data) => {
-                    if (data.message == "good") {
+                    if (data.message === "good") {
                         fetch("http://" + window.location.hostname + ':8081/login', {
                             method: "POST", headers: {
                                 "Content-Type": "application/json",
                             }, body: bodyString
                         })
                             .then(response => response.json()).then((data) => {
-                                if (data.message == "good") {
+                                if (data.message === "good") {
                                     window.localStorage.setItem('jwt', data["token"]);
                                     window.location = "/"
-                                }else if(data.message == "bad"){
+                                }else if(data.message === "bad"){
                                     this.setState({ popupName: "wrongPassword" });
                                 }
                             });
-                    } else if (data.message == "bad") {
+                    } else if (data.message === "bad") {
                         this.usernameRef.current.value = "";
                         this.setState({ isLoginForm: false });
                     } else {
@@ -62,7 +62,7 @@ class Login extends Component {
         })
             .then(response => response.json()).catch(reason => console.log(reason))
             .then((data) => {
-                if (data.message == "good") {
+                if (data.message === "good") {
                     this.verifyCodeRef.current.value = "";
                     this.setState({ isLoginForm: true, popupName: "correctCode" });
                 } else {

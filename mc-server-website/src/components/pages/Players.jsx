@@ -33,14 +33,13 @@ class Players extends Component {
 
     let content;
 
-
     if (this.state.players !== undefined) {
       content = this.getPlayerCards();
     } else {
       content = (<Loading />);
     }
 
-    if (this.state.isAnyPlayers == false) {
+    if (this.state.isAnyPlayers === false) {
       content = (<Card body>
         <Row className="justify-content-md-center">
           <h5> No players yet! Be the first to joing our server :D </h5>
@@ -48,7 +47,7 @@ class Players extends Component {
       </Card>);
     }
 
-    return (
+    return ( 
       <Container>
         &nbsp;
           <h3> Players </h3>

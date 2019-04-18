@@ -119,6 +119,29 @@ app.post('/transactions', function (req, res) {
     }
 })
 
+app.post('/expenses', function (req, res) {
+    if (isDBConnected) {
+        console.log(jwt.decode(req.body.token));
+        let username = jwt.decode(req.body.token).username;
+        con.query('SELECT * from players WHERE username = ?', [username], function (error, results, fields) {
+            if (error) throw error;
+            if (results.length > 0) {
+                con.query('SELECT * from expenses WHERE sender = ?', [results[0].accountid, results[0].accountid], function (error, results, fields) {
+                    if (error) { console.log(error); throw error; }
+                    if (results.length > 0) {
+                        res.json(results);
+                    } else {
+                        res.json([]);
+                    }
+                });
+            }
+        });
+
+    } else {
+        res.json({ message: "bad" });
+    }
+})
+
 // app.post('/requestUpdateImageCache', function (req, res) {
 //     let username = req.body.username;
 //     if(tryUpdateImageForUsername(username)){

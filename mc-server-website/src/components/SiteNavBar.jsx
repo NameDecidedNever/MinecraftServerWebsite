@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Form, Button } from 'react-bootstrap';
 import  TokenManager  from '../tokenManager';
-var jwt = require('jsonwebtoken')
 
 class SiteNavBar extends Component {
 

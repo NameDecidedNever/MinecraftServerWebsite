@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { Container, ListGroup, Badge, Nav, Card, Row, Col } from 'react-bootstrap';
+import { Container,  Nav, Row, Col } from 'react-bootstrap';
 import TokenManager from '../../tokenManager';
 import PleaseLogin from '../PleaseLogin';
-import PlayerProfilePic from '../PlayerProfilePic';
-import Loading from '../Loading';
 import TransactionList from '../TransactionList';
 import TransactionGraph from '../TransactionGraph';
 import Loans from '../Loans';
@@ -26,10 +24,10 @@ class Finance extends Component {
 
   render() {
     let content = <div></div>;
-    if(this.state.page == "transactions"){
+    if(this.state.page === "transactions"){
       content = (<Row><Col><TransactionList></TransactionList></Col>
         <Col><TransactionGraph></TransactionGraph></Col></Row>);
-    }else if(this.state.page == "expenses"){
+    }else if(this.state.page === "expenses"){
       content = <Expenses></Expenses>;
     }else{
       content = <Loans></Loans>;

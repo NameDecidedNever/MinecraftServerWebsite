@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Container, ListGroup, Badge } from 'react-bootstrap';
+import { ListGroup, Badge } from 'react-bootstrap';
 import TokenManager from '../tokenManager';
 import PleaseLogin from './PleaseLogin';
-import PlayerProfilePic from './PlayerProfilePic';
 import Loading from './Loading';
+import DataManager from '../dataManager';
 
 class TransactionList extends Component {
 
@@ -15,41 +15,36 @@ class TransactionList extends Component {
             ready: false,
             transactions: (<></>)
         };
-        this.updateList();
+        if (TokenManager.isLoggedIn()) {
+            this.updateList();
+        }
     }
 
 
     updateList() {
-        if (TokenManager.isLoggedIn()) {
-            let transactionsDOM = [];
-            fetch("http://" + window.location.hostname + ':8081/transactions', {
-                method: "POST", headers: {
-                    "Content-Type": "application/json",
-                }, body: TokenManager.getTokenToSend().toString()
-            })
-                .then(response => response.json()).catch(reason => console.log(reason))
-                .then((data) => {
-                    data.reverse().forEach(element => {
-                        let badgeVar = "danger";
-                        if (TokenManager.getLoggedInName() == element.recieverLabel.split("'")[0]) {
-                            badgeVar = "success";
-                        }
-                        transactionsDOM.push(
-                            <ListGroup.Item>
-                                <h6>{element.senderLabel} ➜ {element.recieverLabel}</h6>
-                                <div className="float-right">
-                                    <Badge variant={badgeVar}>
-                                        ${element.amount.toFixed(2)}
-                                    </Badge>
-                                </div>
-                                {element.message}
-                            </ListGroup.Item>);
-                    });
-                    this.setState({ transactions: (<ListGroup variant="flush">{transactionsDOM}</ListGroup>), isReady: true });
-                });
-        }
+        let transactionsDOM = [];
+        DataManager.getDataFromEndpoint("transactions").then((data) => {
+            let DOMKey = 0;
+            data.reverse().forEach(element => {
+                let badgeVar = "danger";
+                if (TokenManager.getLoggedInName() === element.recieverLabel.split("'")[0]) {
+                    badgeVar = "success";
+                }
+                transactionsDOM.push(
+                    <ListGroup.Item key={DOMKey}>
+                        <h6>{element.senderLabel} ➜ {element.recieverLabel}</h6>
+                        <div className="float-right">
+                            <Badge variant={badgeVar}>
+                                ${element.amount.toFixed(2)}
+                            </Badge>
+                        </div>
+                        {element.message}
+                    </ListGroup.Item>);
+                DOMKey++;
+            });
+            this.setState({ transactions: (<ListGroup variant="flush">{transactionsDOM}</ListGroup>), isReady: true });
+        });
     }
-
 
     render() {
         let content = [];
@@ -62,7 +57,7 @@ class TransactionList extends Component {
             content = (<PleaseLogin />);
         }
         return (
-            <div height={100} style={{"overflow-y":"auto", "max-height" : "600px"}}>
+            <div height={100} style={{ "overflowY": "auto", "maxHeight": "600px" }}>
                 {content}
             </div>
         );
