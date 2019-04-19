@@ -50,7 +50,7 @@ class TransactionGraph extends Component {
                         <h3>Account Balance v Time</h3></Container>
 
                     <AreaChart width={630} height={450} data={this.state.data}
-                        margin={{ top: 50, right: 30, left: 10, bottom: 10 }}>
+                        margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
                         <XAxis dataKey="name" />
                         <YAxis />
                         <CartesianGrid strokeDasharray="3 3" />

@@ -142,6 +142,30 @@ app.post('/expenses', function (req, res) {
     }
 })
 
+app.post('/about', function (req, res) {
+    if (isDBConnected) {
+        con.query('SELECT * from `about`', [], function (error, results, fields) {
+            if (error) { console.log(error); throw error; }
+            if (results.length > 0) {
+                con.query('SELECT COUNT(*) from `transactions`', [], function (error, transactionCount, fields) {
+                    if (error) { console.log(error); throw error; }
+                    results[0].transactionsFufilled = transactionCount[0]['COUNT(*)'];
+                    con.query('SELECT balance from `accounts` WHERE name = ?', ['server'], function (error, serverBalance, fields) {
+                        if (error) { console.log(error); throw error; }
+                        results[0].serverBankAccount = serverBalance[0]['balance'];
+                        res.json(results);
+                    });
+                });
+
+            } else {
+                res.json([]);
+            }
+        });
+    } else {
+        res.json({ message: "bad" });
+    }
+})
+
 // app.post('/requestUpdateImageCache', function (req, res) {
 //     let username = req.body.username;
 //     if(tryUpdateImageForUsername(username)){
