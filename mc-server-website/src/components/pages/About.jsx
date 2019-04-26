@@ -23,7 +23,7 @@ class About extends Component {
 
   handleUpdate() {
     DataManager.getDataFromEndpoint("about").then((data) => {
-      this.setState({ currentPlayers: data[0].currentPlayersOnline, maxPlayers: data[0].maxPlayersOnline, transactionsFufilled : data[0].transactionsFufilled, serverBankAccount : data[0].serverBankAccount, isReady: true });
+      this.setState({ currentPlayers: data[0].currentPlayersOnline, maxPlayers: data[0].maxPlayersOnline, transactionsFufilled: data[0].transactionsFufilled, serverBankAccount: data[0].serverBankAccount, isReady: true });
     });
   }
 
@@ -42,34 +42,34 @@ class About extends Component {
       <Container>
         &nbsp;
         <Jumbotron>
-        <ListGroup variant="flush">
-  <ListGroup.Item>
+          <ListGroup variant="flush">
+            <ListGroup.Item>
 
-          <h1>About NDN Minecraft</h1>
-          <p>
-            Hopefully James isn't cheating...
-            </p> 
-  </ListGroup.Item>
-  <ListGroup.Item>
-  <Row>
-              <Col>
-                <h3> Players Online <Badge variant={currentPlayerBadgeVarient}>{this.state.currentPlayers} </Badge> </h3>
-              </Col>
-              <Col>
-                <h3> Lifetime Player Peak <Badge variant="primary">{this.state.maxPlayers} </Badge></h3>
-              </Col>
-          </Row>
-          &nbsp;
+              <h1>About NDN Minecraft</h1>
+              <p>
+                Hopefully James isn't cheating...
+            </p>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Row>
+                <Col>
+                  <h3> Players Online <Badge variant={currentPlayerBadgeVarient}>{this.state.currentPlayers} </Badge> </h3>
+                </Col>
+                <Col>
+                  <h3> Lifetime Player Peak <Badge variant="primary">{this.state.maxPlayers} </Badge></h3>
+                </Col>
+              </Row>
+              &nbsp;
           <Row>
-              <Col>
-                <h3> Transactions Fufilled <Badge variant={transactionsFufilledBadgeVarient}>{this.state.transactionsFufilled} </Badge> </h3>
-              </Col>
-              <Col>
-                <h3> Server Bank Account <Badge variant="success">${this.state.serverBankAccount.toFixed(2)} </Badge></h3>
-              </Col>
-          </Row>
-          </ListGroup.Item>
-</ListGroup>
+                <Col>
+                  <h3> Transactions Fufilled <Badge variant={transactionsFufilledBadgeVarient}>{this.state.transactionsFufilled} </Badge> </h3>
+                </Col>
+                <Col>
+                  <h3> Server Bank Account <Badge variant="success">${this.state.serverBankAccount.toFixed(2)} </Badge></h3>
+                </Col>
+              </Row>
+            </ListGroup.Item>
+          </ListGroup>
         </Jumbotron>
       </Container>
     );

@@ -24,11 +24,12 @@ class SiteNavBar extends Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="home">Home</Nav.Link>
-            <Nav.Link href="map">Map</Nav.Link>
-            <Nav.Link href="finance">Finance</Nav.Link>
-            <Nav.Link href="players">Players</Nav.Link>
-            <Nav.Link href="about">About</Nav.Link>
+            <Nav.Link href="/home">Home</Nav.Link>
+            <Nav.Link href="/map">Map</Nav.Link>
+            <Nav.Link href="/finance">Finance</Nav.Link>
+            <Nav.Link href="/players">Players</Nav.Link>
+            <Nav.Link href="/towns">Towns</Nav.Link>
+            <Nav.Link href="/about">About</Nav.Link>
           </Nav>
           <Form inline>
             {rightNavArea}

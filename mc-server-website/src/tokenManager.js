@@ -18,6 +18,22 @@ export default {
             return JSON.stringify([]);
         }
     },
+    getTokenToSendJSON(){
+        if(this.isLoggedIn()){
+            return {"token" : window.localStorage.getItem('jwt')};
+        }else{
+            return [];
+        }
+    },
+    getTokenToSendData(data){
+        if(this.isLoggedIn()){
+            let packetToReturn = data;
+            packetToReturn["token"] = window.localStorage.getItem('jwt')
+            return JSON.stringify(packetToReturn);
+        }else{
+            return JSON.stringify([]);
+        }
+    },
     logout(){
         window.localStorage.removeItem('jwt');
     }

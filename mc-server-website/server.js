@@ -96,8 +96,24 @@ app.post('/login', function (req, res) {
     }
 })
 
+app.post('/towns', function (req, res) {
+    if (isDBConnected) {
+        con.query('SELECT * from towns', [], function (error, results, fields) {
+            if (error) throw error;
+            if (results.length > 0) {
+                res.json(results);
+            } else {
+                res.json([]);
+            }
+        });
+    } else {
+        res.json({ message: "bad" });
+    }
+})
+
 app.post('/transactions', function (req, res) {
     if (isDBConnected) {
+        console.log(req.body);
         console.log(jwt.decode(req.body.token));
         let username = jwt.decode(req.body.token).username;
         con.query('SELECT * from players WHERE username = ?', [username], function (error, results, fields) {
@@ -137,6 +153,22 @@ app.post('/expenses', function (req, res) {
             }
         });
 
+    } else {
+        res.json({ message: "bad" });
+    }
+})
+
+app.post('/towndetails', function (req, res) {
+    if (isDBConnected) {
+        let townName = req.body.townName;
+        con.query('SELECT * from towns WHERE name = ?', [townName], function (error, results, fields) {
+            if (error) { console.log(error); throw error; }
+            if (results.length > 0) {
+                res.json(results);
+            } else {
+                res.json([]);
+            }
+        });
     } else {
         res.json({ message: "bad" });
     }
