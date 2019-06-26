@@ -10,6 +10,7 @@ class MapPage extends Component {
         &nbsp;
         <Iframe url={"http://" + window.location.hostname + ':8081/index.html'}
           height="600px"
+          width="900px"
           className="myClassname"
           display="initial"
           position="relative"

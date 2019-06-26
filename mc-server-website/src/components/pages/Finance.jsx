@@ -47,9 +47,6 @@ class Finance extends Component {
               <Nav.Link eventKey="expenses">Expenses</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="loans">Loans</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
               <Nav.Link eventKey="disabled" disabled>
                 More Coming Soon!
     </Nav.Link>

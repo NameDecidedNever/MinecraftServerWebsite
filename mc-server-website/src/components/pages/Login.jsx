@@ -81,7 +81,7 @@ class Login extends Component {
 
         const popupWrongPassword = (
             <Alert variant="danger">
-                <Alert.Heading>Incorrect Password! Is this really your account...James?</Alert.Heading>
+                <Alert.Heading>Incorrect Password! Is this really your account...James? We're watching you... <img src="/observerTexture.png"></img></Alert.Heading>
             </Alert>
         );
 

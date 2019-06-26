@@ -3,6 +3,7 @@ import { Container, ListGroup, Badge, Card, Row, Button } from 'react-bootstrap'
 import Loading from '../Loading';
 import DataManager from '../../dataManager';
 import TokenManager from '../../tokenManager';
+import {Animated} from "react-animated-css";
 import '../../App.css';
 
 class Towns extends Component {
@@ -28,13 +29,19 @@ class Towns extends Component {
             let isMyTown = TokenManager.getLoggedInName() === town.ownerName;
             townCards.push(
                 <ListGroup.Item>
+                    <Animated animationIn="fadeIn" animationOut="fadeOut">
                     <h4>{town.name}</h4>
                     <div className="float-right">
-                    {isMyTown ? <Button variant="primary" href={"/managetown/" + town.name}> 
+                    <Button variant="primary" href={"/townplots/" + town.name}> 
+                            View Plots
+                        </Button> 
+                        &nbsp;
+                    {isMyTown ? <Button variant="success" href={"/managetown/" + town.name}> 
                             Manage
                         </Button> : ""}  
                     </div>
                     Est. {(new Date(town.dateFounded * 1000).getMonth() + 1) + "/" + new Date(town.dateFounded * 1000).getDate() +  "/" + new Date(town.dateFounded * 1000).getFullYear()}
+                </Animated>
                 </ListGroup.Item>
             );
         });

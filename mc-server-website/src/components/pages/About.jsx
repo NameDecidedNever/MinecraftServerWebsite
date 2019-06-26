@@ -3,6 +3,8 @@ import { Container, Card, Row, Badge, Jumbotron, Button, Col, ListGroup } from '
 import '../../App.css';
 import DataManager from '../../dataManager';
 import Loading from '../Loading';
+import PleaseLogin from '../PleaseLogin';
+import TokenManager from '../../tokenManager';
 
 class About extends Component {
 
@@ -14,20 +16,32 @@ class About extends Component {
       currentPlayers: 0,
       maxPlayers: 0,
       transactionsFufilled: 0,
-      serverBankAccount: 0
+      serverBankAccount: 0,
+      constants : undefined,
+      constantsDOM : (<></>)
     }
 
-    this.handleUpdate();
+    if (TokenManager.isLoggedIn()) {
+      this.handleUpdate();
+    }
 
   }
-
+ 
   handleUpdate() {
     DataManager.getDataFromEndpoint("about").then((data) => {
       this.setState({ currentPlayers: data[0].currentPlayersOnline, maxPlayers: data[0].maxPlayersOnline, transactionsFufilled: data[0].transactionsFufilled, serverBankAccount: data[0].serverBankAccount, isReady: true });
     });
+    DataManager.getDataFromEndpoint("constants").then((data) => {
+      this.setState({ constants : data }, () => {
+        this.setState({constantsDOM : this.state.constants.map((item,i) => <li key={i}>{item.name}  <Badge variant="primary">{item.value} </Badge></li>)});
+      });
+    });
   }
 
   render() {
+    if (!TokenManager.isLoggedIn()) {
+      return (<Container>&nbsp;<PleaseLogin /></Container>);
+    }
     if (!this.state.isReady) {
       return (
         <Container>
@@ -38,6 +52,7 @@ class About extends Component {
     }
     let currentPlayerBadgeVarient = this.state.currentPlayers > 0 ? "success" : "secondary";
     let transactionsFufilledBadgeVarient = this.state.transactionsFufilled > 0 ? "success" : "secondary";
+
     return (
       <Container>
         &nbsp;
@@ -68,6 +83,9 @@ class About extends Component {
                   <h3> Server Bank Account <Badge variant="success">${this.state.serverBankAccount.toFixed(2)} </Badge></h3>
                 </Col>
               </Row>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              {this.state.constantsDOM}
             </ListGroup.Item>
           </ListGroup>
         </Jumbotron>

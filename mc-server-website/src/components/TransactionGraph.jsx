@@ -21,23 +21,32 @@ class TransactionGraph extends Component {
     }
 
     updateList() {
-        DataManager.getDataFromEndpoint("transactions").then((data) => {
-                let Bal = 0;
-                let xCoord = 0;
-                let newData = [];
-                data.forEach(element => {
-                    xCoord += 20;
-                    if (TokenManager.getLoggedInName() == element.recieverLabel.split("'")[0]) {
-                        Bal += element.amount;
-                    } else {
-                        Bal -= element.amount;
-                    }
-
-                    newData.push({ balance: Bal.toFixed(2) });
+        DataManager.getDataFromEndpoint("constants").then((constants) => {
+            DataManager.getDataFromEndpoint("transactions").then((data) => {
+                    let Bal = 0;
+                    constants.forEach((val) => {
+                        if(val.name === "STARTING_MONEY_PER_PLAYER"){
+                            Bal = val.value;
+                        }
+                    });
+                    let xCoord = 0;
+                    let newData = [];
+                    //newData.push({balance : Bal});
+                    //newData.push({balance : 3000});
+                    data.forEach(element => {
+                        xCoord += 20;
+                        if (TokenManager.getLoggedInName() == element.recieverLabel.split("'")[0]) {
+                            Bal += element.amount;
+                        } else {
+                            Bal -= element.amount;
+                        }
+    
+                        newData.push({ balance: Bal.toFixed(2) });
+                    });
+                    this.setState({ data: newData });
+                    this.setState({ ready: true });
                 });
-                this.setState({ data: newData });
-                this.setState({ ready: true });
-            });
+          });
     }
 
     render() {
@@ -57,6 +66,7 @@ class TransactionGraph extends Component {
                         <Tooltip />
                         <Area type="monotone" dataKey="balance" stroke="#82ca9d" fillOpacity={1} fill="#82ca9d" />
                     </AreaChart>
+                      
                 </Card>);
         } else {
             content = (<PleaseLogin />);
