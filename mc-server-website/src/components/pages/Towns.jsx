@@ -27,6 +27,7 @@ class Towns extends Component {
         let townCards = [];
         townData.forEach((town) => {
             let isMyTown = TokenManager.getLoggedInName() === town.ownerName;
+            if(town.isQuestTown == 0){
             townCards.push(
                 <ListGroup.Item>
                     <Animated animationIn="fadeIn" animationOut="fadeOut">
@@ -44,7 +45,9 @@ class Towns extends Component {
                 </Animated>
                 </ListGroup.Item>
             );
+            }
         });
+    
         return (<ListGroup>{townCards}</ListGroup>);
     }
 

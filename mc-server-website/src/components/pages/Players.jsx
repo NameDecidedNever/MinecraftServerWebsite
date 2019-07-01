@@ -16,7 +16,8 @@ class Players extends Component {
       players: undefined,
       isAnyPlayers: undefined,
       accounts: undefined,
-      showPlaytime: false
+      showPlaytime: false,
+      totalHours : null
     };
     this.showPlaytimeCheckbox = React.createRef();
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
@@ -37,6 +38,7 @@ class Players extends Component {
     
 
     playerData.forEach((player, index) => {
+      this.state.totalHours += player.secondsPlayed;
       let playtimeCard = (<Badge variant="primary">{(player.secondsPlayed / 60 / 60).toFixed(1)} hours </Badge>);
       playerCards.push(
       <Animated animationIn="fadeIn" animationOut="flipOutY" animationInDelay={index * 40} animationInDuration={500}>
@@ -93,6 +95,7 @@ class Players extends Component {
         &nbsp;
           <h3> Players </h3>
           <h5>Show player playtime <input type="checkbox" ref={this.showPlaytimeCheckbox} onClick={this.handleCheckboxChange}></input></h5> 
+          <Badge variant="primary">{(this.state.totalHours / 60 / 60).toFixed(1)} hours across all accounts </Badge>
         &nbsp;
           {content}
       </Container>

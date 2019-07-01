@@ -12,8 +12,6 @@ app.use(cors());
 // parse application/json
 app.use(bodyParser.json());
 
-app.use(express.static('C:/Users/Matthew/Documents/NDN Summer Server/overviewer-output'));
-
 let isDBConnected = false;
 
 var con = mysql.createConnection({

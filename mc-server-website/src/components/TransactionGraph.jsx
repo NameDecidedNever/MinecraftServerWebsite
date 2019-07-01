@@ -32,7 +32,7 @@ class TransactionGraph extends Component {
                     let xCoord = 0;
                     let newData = [];
                     //newData.push({balance : Bal});
-                    //newData.push({balance : 3000});
+                    newData.push({balance : 3000});
                     data.forEach(element => {
                         xCoord += 20;
                         if (TokenManager.getLoggedInName() == element.recieverLabel.split("'")[0]) {
